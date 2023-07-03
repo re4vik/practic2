@@ -1,52 +1,43 @@
-# Prerequisites
-*.d
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+// Функція для знаходження НСД (найбільший спільний дільник) двох чисел
+int ncd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
 
-# Linker output
-*.ilk
-*.map
-*.exp
+// Функція для знаходження НСК (найменше спільне кратне) різних чисел
+int nck_of_numbers(int arr[], int n) {
+    int nck = arr[0];
 
-# Precompiled Headers
-*.gch
-*.pch
+    // Обчислюємо НСК для кожного числа в масиві
+    for (int i = 1; i < n; i++) {
+        int num = arr[i];
+        int current_ncd = ncd(nck, num);
+        nck = (nck * num) / current_ncd; // Знаходимо НСК, використовуючи властивість: НСК(a, b) = (a * b) / НСД(a, b)
+    }
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+    return nck;
+}
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+int main() {
+    int n;
+    printf("Enter the number of elements (2 <= n <= 20): ");
+    scanf("%d", &n);
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+    int arr[20];
+    printf("Enter %d elements (each element not more than 10000):\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+    int result = nck_of_numbers(arr, n); // Викликаємо функцію для знаходження НСК різних чисел
+    printf("LCM of the given numbers is: %d\n", result);
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+}
